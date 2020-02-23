@@ -1,3 +1,12 @@
+"""
+Copyright Declaration (C)
+From: https://github.com/leeykang/
+Use and modification of information, comment(s) or code provided in this document
+is granted if and only if this copyright declaration, located between lines 1 to
+9 of this document, is preserved at the top of any document where such
+information, comment(s) or code is/are used.
+
+"""
 import numpy as np
 
 def generate_curves(line_segments, tolerance=1e-7):
@@ -64,12 +73,13 @@ def generate_curves(line_segments, tolerance=1e-7):
     # Convert array_like input to array if required.
     line_segments_arr = np.asarray(line_segments)
 
-    # Compute the number of dimensions for the points.
+    # Obtains the number of dimensions for each of the points.
     num_dimensions = line_segments_arr.shape[-1]
 
-    # Compute the number of points, using the fact that each line segment
-    # consists of 2 points.
-    num_points = line_segments_arr.size // 2
+    # Compute the number of points, using the fact that the first axis of the
+    # array refers to the number of lines and the second axis of the array
+    # refers to the number of points per line.
+    num_points = line_segments_arr.shape[0] * line_segments_arr.shape[1]
 
     # Places a point of every line segment in rows of the base_points array.
     base_points = line_segments_arr.reshape((num_points, num_dimensions))
@@ -228,7 +238,7 @@ def generate_curves(line_segments, tolerance=1e-7):
 
                         # Add the corresponding index line segment's other
                         # endpoint to the main line segment.
-                        current_segment.append(final_value)
+                        current_segment.insert(0, final_value)
 
                         # Remove corresponding index line segment's other
                         # endpoint as an available starting point.
